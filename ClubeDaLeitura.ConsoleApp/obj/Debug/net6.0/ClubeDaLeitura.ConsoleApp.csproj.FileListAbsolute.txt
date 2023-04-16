@@ -1,0 +1,15 @@
+C:\AP\Modulo_1\15 - ClubeDaLeitura\ClubeDaLeitura.ConsoleApp\bin\Debug\net6.0\ClubeDaLeitura.ConsoleApp.exe
+C:\AP\Modulo_1\15 - ClubeDaLeitura\ClubeDaLeitura.ConsoleApp\bin\Debug\net6.0\ClubeDaLeitura.ConsoleApp.deps.json
+C:\AP\Modulo_1\15 - ClubeDaLeitura\ClubeDaLeitura.ConsoleApp\bin\Debug\net6.0\ClubeDaLeitura.ConsoleApp.runtimeconfig.json
+C:\AP\Modulo_1\15 - ClubeDaLeitura\ClubeDaLeitura.ConsoleApp\bin\Debug\net6.0\ClubeDaLeitura.ConsoleApp.dll
+C:\AP\Modulo_1\15 - ClubeDaLeitura\ClubeDaLeitura.ConsoleApp\bin\Debug\net6.0\ClubeDaLeitura.ConsoleApp.pdb
+C:\AP\Modulo_1\15 - ClubeDaLeitura\ClubeDaLeitura.ConsoleApp\obj\Debug\net6.0\ClubeDaLeitura.ConsoleApp.csproj.AssemblyReference.cache
+C:\AP\Modulo_1\15 - ClubeDaLeitura\ClubeDaLeitura.ConsoleApp\obj\Debug\net6.0\ClubeDaLeitura.ConsoleApp.GeneratedMSBuildEditorConfig.editorconfig
+C:\AP\Modulo_1\15 - ClubeDaLeitura\ClubeDaLeitura.ConsoleApp\obj\Debug\net6.0\ClubeDaLeitura.ConsoleApp.AssemblyInfoInputs.cache
+C:\AP\Modulo_1\15 - ClubeDaLeitura\ClubeDaLeitura.ConsoleApp\obj\Debug\net6.0\ClubeDaLeitura.ConsoleApp.AssemblyInfo.cs
+C:\AP\Modulo_1\15 - ClubeDaLeitura\ClubeDaLeitura.ConsoleApp\obj\Debug\net6.0\ClubeDaLeitura.ConsoleApp.csproj.CoreCompileInputs.cache
+C:\AP\Modulo_1\15 - ClubeDaLeitura\ClubeDaLeitura.ConsoleApp\obj\Debug\net6.0\ClubeDaLeitura.ConsoleApp.dll
+C:\AP\Modulo_1\15 - ClubeDaLeitura\ClubeDaLeitura.ConsoleApp\obj\Debug\net6.0\refint\ClubeDaLeitura.ConsoleApp.dll
+C:\AP\Modulo_1\15 - ClubeDaLeitura\ClubeDaLeitura.ConsoleApp\obj\Debug\net6.0\ClubeDaLeitura.ConsoleApp.pdb
+C:\AP\Modulo_1\15 - ClubeDaLeitura\ClubeDaLeitura.ConsoleApp\obj\Debug\net6.0\ClubeDaLeitura.ConsoleApp.genruntimeconfig.cache
+C:\AP\Modulo_1\15 - ClubeDaLeitura\ClubeDaLeitura.ConsoleApp\obj\Debug\net6.0\ref\ClubeDaLeitura.ConsoleApp.dll
