@@ -42,7 +42,7 @@ namespace ClubeDaLeitura.ConsoleApp.Telas
         }
         private void CadastrarRevista()
         {
-            ArrayList revista = FormularioRevista();
+            ArrayList revista = ExecutarFormulario();
 
             revistaRepositorio.CadastrarRevista(new Revista((string)revista[0]!, (int)revista[1]!, (int)revista[2]!, (Caixa)revista[3]!));
 
@@ -60,7 +60,7 @@ namespace ClubeDaLeitura.ConsoleApp.Telas
             RenderizarTabelaRevistas(revistas, true);
         }
 
-        public ArrayList FormularioRevista()
+        public ArrayList ExecutarFormulario()
         {
             ArrayList caixas = caixaRepositorio.ListarCaixas();
 
@@ -113,7 +113,7 @@ namespace ClubeDaLeitura.ConsoleApp.Telas
             if (!VerificarItemEncontrado(revista, $"Revista id {idRevista} não cadastrada."))
                 return;
 
-            ArrayList revistaEditada = FormularioRevista();
+            ArrayList revistaEditada = ExecutarFormulario();
 
             revistaRepositorio.Editar(revista, revistaEditada);
 

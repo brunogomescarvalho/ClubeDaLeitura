@@ -41,7 +41,7 @@ namespace ClubeDaLeitura.ConsoleApp.Telas
 
         private void CadastrarAmigo()
         {
-            ArrayList novoAmigo = PreecherFormularioAmigo();
+            ArrayList novoAmigo = ExecutarFormulario();
 
             Amigo amigo = new Amigo((string)novoAmigo[0]!, (string)novoAmigo[1]!, (string)novoAmigo[2]!, (Endereco)novoAmigo[3]!);
 
@@ -59,7 +59,6 @@ namespace ClubeDaLeitura.ConsoleApp.Telas
 
             RenderizarTabela(amigos, true);
         }
-
 
 
         private void EditarAmigo()
@@ -87,7 +86,7 @@ namespace ClubeDaLeitura.ConsoleApp.Telas
                 return;
             }
 
-            ArrayList amigoEditado = PreecherFormularioAmigo();
+            ArrayList amigoEditado = ExecutarFormulario();
 
             amigoRepositorio.EditarAmigo(amigoSolicitado.Id, amigoEditado);
 
@@ -123,7 +122,7 @@ namespace ClubeDaLeitura.ConsoleApp.Telas
             MostrarMensagemStatus(ConsoleColor.Green, "Cadastro Excluído com sucesso");
         }
 
-        private ArrayList PreecherFormularioAmigo()
+        private ArrayList ExecutarFormulario()
         {
             MostrarTexto("Informe o nome");
             string nome = Console.ReadLine()!;
@@ -167,7 +166,6 @@ namespace ClubeDaLeitura.ConsoleApp.Telas
             Console.WriteLine("\n{0,-3} | {1,-10} | {2,-11} | {3, -10}   | {4,-20} | {5,-5} | {6,-20} | {7,-10} | {8}", "ID", "NOME", "RESPONSÁVEL", "TELEFONE", "LOGRADOURO", "NRº", "BAIRRO", "CEP", "COMPLEMENTO");
             Console.WriteLine("----|------------|-------------|--------------|----------------------|-------|----------------------|------------|---------------");
         }
-
 
     }
 }

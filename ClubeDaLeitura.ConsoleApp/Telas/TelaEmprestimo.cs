@@ -52,7 +52,7 @@ namespace ClubeDaLeitura.ConsoleApp.Telas
         private void CriarNovoEmprestimo()
         {
             MostrarTexto("-- Empréstimo --\n");
-            ArrayList dados = FormularioEmprestimo();
+            ArrayList dados = ExecutarFormulario();
 
             if (dados == null)
                 return;
@@ -131,7 +131,7 @@ namespace ClubeDaLeitura.ConsoleApp.Telas
             RenderizarTabelaEmprestimo(emprestimosEmAberto, true);
         }
 
-        private ArrayList FormularioEmprestimo()
+        private ArrayList ExecutarFormulario()
         {
             ArrayList amigos = amigoRepositorio.ListarAmigos();
             ArrayList revistas = revistaRepositorio.ListarRevistas();
@@ -178,7 +178,6 @@ namespace ClubeDaLeitura.ConsoleApp.Telas
 
         }
 
-
         private void Editar()
         {
             MostrarTexto("--- Editar Emprestimo ---");
@@ -201,7 +200,7 @@ namespace ClubeDaLeitura.ConsoleApp.Telas
             if (!VerificarItemEncontrado(emprestimo, "Empréstimo não cadastrado"))
                 return;
 
-            ArrayList dados = FormularioEmprestimo();
+            ArrayList dados = ExecutarFormulario();
 
             if (dados == null)
                 return;

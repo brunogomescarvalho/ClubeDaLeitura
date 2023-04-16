@@ -31,7 +31,6 @@ namespace ClubeDaLeitura
             BRANCA,
             CINZA,
 
-
         }
     }
 }
