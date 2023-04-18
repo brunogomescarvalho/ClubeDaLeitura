@@ -1,9 +1,11 @@
-using ClubeDaLeitura.ConsoleApp.Domain;
-using ClubeDaLeitura.ConsoleApp.Repositorio;
 using ClubeDaLeitura.ConsoleApp.Compartilhado;
 using System.Collections;
+using ClubeDaLeitura.ConsoleApp.ModuloAmigo;
+using ClubeDaLeitura.ConsoleApp.ModuloRevista;
+using ClubeDaLeitura.ConsoleApp.Domain;
+using ClubeDaLeitura.ConsoleApp.ModuloCaixa;
 
-namespace ClubeDaLeitura.ConsoleApp.Telas
+namespace ClubeDaLeitura.ConsoleApp.ModuloEmprestimo
 {
     public class TelaEmprestimo : Tela
     {
@@ -52,17 +54,12 @@ namespace ClubeDaLeitura.ConsoleApp.Telas
         private void CriarNovoEmprestimo()
         {
             MostrarTexto("-- Empréstimo --\n");
-            ArrayList dados = ExecutarFormulario();
+            Emprestimo emprestimo = ExecutarFormulario();
 
-            if (dados == null)
+            if (emprestimo == null)
                 return;
 
-            Amigo amigo = (Amigo)dados[0]!;
-            Revista revista = (Revista)dados[1]!;
-
-            Emprestimo emprestimo = new Emprestimo(amigo!, revista!);
-
-            emprestimoRepositorio.AdicionarEmprestimo(emprestimo);
+            emprestimoRepositorio.Adicionar(emprestimo);
 
             MostrarMensagemStatus(ConsoleColor.Green, "Empréstimo Cadastrado Com Sucesso");
 
@@ -97,7 +94,7 @@ namespace ClubeDaLeitura.ConsoleApp.Telas
             if (!OpcaoValida(id))
                 return;
 
-            Emprestimo emprestimo = emprestimoRepositorio.ObterEmprestimoPorID(int.Parse(id));
+            Emprestimo emprestimo = (Emprestimo)emprestimoRepositorio.BuscarPorId(int.Parse(id));
 
             if (!VerificarItemEncontrado(emprestimo, "Empréstimo não cadastrado"))
                 return;
@@ -131,10 +128,10 @@ namespace ClubeDaLeitura.ConsoleApp.Telas
             RenderizarTabelaEmprestimo(emprestimosEmAberto, true);
         }
 
-        private ArrayList ExecutarFormulario()
+        private Emprestimo ExecutarFormulario()
         {
-            ArrayList amigos = amigoRepositorio.ListarAmigos();
-            ArrayList revistas = revistaRepositorio.ListarRevistas();
+            ArrayList amigos = amigoRepositorio.BuscarTodos();
+            ArrayList revistas = revistaRepositorio.BuscarTodos();
 
             if (!VerificarListaContemItens(amigos, "amigos") || !VerificarListaContemItens(revistas, "revistas"))
                 return null!;
@@ -148,7 +145,7 @@ namespace ClubeDaLeitura.ConsoleApp.Telas
             if (!OpcaoValida(id))
                 return null!;
 
-            Amigo amigo = amigoRepositorio.ObterAmigoPorID(int.Parse(id));
+            Amigo amigo = (Amigo)amigoRepositorio.BuscarPorId(int.Parse(id));
 
             if (!VerificarItemEncontrado(amigo, $"Amigo id {id} não cadastrado."))
                 return null!;
@@ -163,7 +160,7 @@ namespace ClubeDaLeitura.ConsoleApp.Telas
             if (!OpcaoValida(idRevista))
                 return null!;
 
-            Revista revista = revistaRepositorio.BuscarPorId(int.Parse(idRevista));
+            Revista revista = (Revista)revistaRepositorio.BuscarPorId(int.Parse(idRevista));
 
             if (!VerificarItemEncontrado(revista, $"Revista id {idRevista} não cadastrada."))
                 return null!;
@@ -174,7 +171,7 @@ namespace ClubeDaLeitura.ConsoleApp.Telas
                 return null!;
             }
 
-            return new ArrayList() { amigo, revista };
+            return new Emprestimo(amigo, revista);
 
         }
 
@@ -195,17 +192,16 @@ namespace ClubeDaLeitura.ConsoleApp.Telas
             if (!OpcaoValida(id))
                 return;
 
-            Emprestimo emprestimo = emprestimoRepositorio.ObterEmprestimoPorID(int.Parse(id));
+            Emprestimo emprestimo = (Emprestimo)emprestimoRepositorio.BuscarPorId(int.Parse(id));
 
             if (!VerificarItemEncontrado(emprestimo, "Empréstimo não cadastrado"))
                 return;
 
-            ArrayList dados = ExecutarFormulario();
+            Emprestimo emprestimoEditado = ExecutarFormulario();
 
-            if (dados == null)
+            if (emprestimoEditado == null)
                 return;
 
-            emprestimoRepositorio.Editar(emprestimo, dados);
 
             MostrarMensagemStatus(ConsoleColor.Green, "Edição efetuada com sucesso");
 
@@ -229,7 +225,7 @@ namespace ClubeDaLeitura.ConsoleApp.Telas
             if (!OpcaoValida(id))
                 return;
 
-            Emprestimo emprestimo = emprestimoRepositorio.ObterEmprestimoPorID(int.Parse(id));
+            Emprestimo emprestimo = (Emprestimo)emprestimoRepositorio.BuscarPorId(int.Parse(id));
 
             if (!VerificarItemEncontrado(emprestimo, "Empréstimo não cadastrado"))
                 return;
@@ -240,7 +236,7 @@ namespace ClubeDaLeitura.ConsoleApp.Telas
                 return;
             }
 
-            emprestimoRepositorio.RemoverEmprestimo(emprestimo);
+            emprestimoRepositorio.Remover(emprestimo);
             MostrarMensagemStatus(ConsoleColor.Green, "Exclusão efetuada com sucesso");
 
         }
@@ -292,33 +288,33 @@ namespace ClubeDaLeitura.ConsoleApp.Telas
 
             var amigo = new Amigo("JowJow", "Nane", "32232374", endereco);
 
-            repositorio.AdicionarAmigo(amigo);
-            repositorio.AdicionarAmigo(new Amigo("Dagmar", "Leslie", "32252340", endereco1));
-            repositorio.AdicionarAmigo(new Amigo("Honofre", "Elba", "9992374", endereco2));
+            repositorio.Adicionar(amigo);
+            repositorio.Adicionar(new Amigo("Dagmar", "Leslie", "32252340", endereco1));
+            repositorio.Adicionar(new Amigo("Honofre", "Elba", "9992374", endereco2));
 
-            var cx1 = new Caixa(Caixa.Cores.AMARELA, "Quadrinhos"); 
+            var cx1 = new Caixa(Caixa.Cores.AMARELA, "Quadrinhos");
             var cx2 = new Caixa(Caixa.Cores.AZUL, "Teoria Musical");
             var cx3 = new Caixa(Caixa.Cores.VERDE, "Programação");
-            var cx4 = new Caixa(Caixa.Cores.VERMELHA, "Antiga Diversos"); 
+            var cx4 = new Caixa(Caixa.Cores.VERMELHA, "Antiga Diversos");
 
-            repositorioCx.CadastrarCaixa(cx1);
-            repositorioCx.CadastrarCaixa(cx2);
-            repositorioCx.CadastrarCaixa(cx3);
-            repositorioCx.CadastrarCaixa(cx4);
+            repositorioCx.Adicionar(cx1);
+            repositorioCx.Adicionar(cx2);
+            repositorioCx.Adicionar(cx3);
+            repositorioCx.Adicionar(cx4);
 
             var revista = new Revista("História da Arte", 123, 1985, cx4);
             var revista1 = new Revista("A geometria da Música", 021, 1996, cx2);
             var revista2 = new Revista("A Casa do código", 54, 2007, cx3);
             var revista3 = new Revista("As Aventuras de Patrick", 23, 2011, cx1);
 
-            repositorioRv.CadastrarRevista(revista);
-            repositorioRv.CadastrarRevista(revista1);
-            repositorioRv.CadastrarRevista(revista2);
-            repositorioRv.CadastrarRevista(revista3);
+            repositorioRv.Adicionar(revista);
+            repositorioRv.Adicionar(revista1);
+            repositorioRv.Adicionar(revista2);
+            repositorioRv.Adicionar(revista3);
 
             var emprestimo = new Emprestimo(amigo, revista);
-
-            repositorioEp.AdicionarEmprestimo(emprestimo);
+        
+            repositorioEp.Adicionar(emprestimo);
 
         }
 

@@ -2,29 +2,17 @@ using ClubeDaLeitura.ConsoleApp.Domain;
 using ClubeDaLeitura.ConsoleApp.Compartilhado;
 using System.Collections;
 
-namespace ClubeDaLeitura.ConsoleApp.Repositorio
+namespace ClubeDaLeitura.ConsoleApp.ModuloEmprestimo
 {
     public class EmprestimoRepositorio : RepositorioMae
     {
 
-        public void AdicionarEmprestimo(Emprestimo emprestimo)
-        {
-            registros.Add(emprestimo);
-        }
 
-        public ArrayList BuscarTodos()
+        public override void Adicionar(Entidade entidade)
         {
-            return registros;
-        }
-
-        public Emprestimo ObterEmprestimoPorID(int id)
-        {
-            foreach (Emprestimo item in registros)
-            {
-                if (item.Id == id)
-                    return item;
-            }
-            return null!;
+            Emprestimo emprestimo = (Emprestimo)entidade;
+            emprestimo.Registrar();
+            base.Adicionar(emprestimo);
         }
 
         public ArrayList ObterEmprestimosMensal()
@@ -53,17 +41,5 @@ namespace ClubeDaLeitura.ConsoleApp.Repositorio
             return emprestimosEmAberto;
         }
 
-         public void Editar(Emprestimo emprestimo, ArrayList dados)
-        {
-            emprestimo.Revista.AlterarStatusRevista();
-            emprestimo.Amigo = (Amigo)dados[0]!;
-            emprestimo.Revista = (Revista)dados[1]!;
-            emprestimo.Revista.AlterarStatusRevista();
-        }
-
-        public void RemoverEmprestimo(Emprestimo emprestimo)
-        {
-            registros.Remove(emprestimo);
-        }
     }
 }

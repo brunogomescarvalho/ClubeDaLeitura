@@ -1,8 +1,10 @@
-using ClubeDaLeitura.ConsoleApp.Repositorio;
 using ClubeDaLeitura.ConsoleApp.Compartilhado;
-using ClubeDaLeitura.ConsoleApp.Telas;
+using ClubeDaLeitura.ConsoleApp.ModuloAmigo;
+using ClubeDaLeitura.ConsoleApp.ModuloCaixa;
+using ClubeDaLeitura.ConsoleApp.ModuloEmprestimo;
+using ClubeDaLeitura.ConsoleApp.ModuloRevista;
 
-namespace ClubeDaLeitura.ConsoleApp.AcoesDoSistema
+namespace ClubeDaLeitura.ConsoleApp.MenuPrincipal
 {
     public class Menu
     {

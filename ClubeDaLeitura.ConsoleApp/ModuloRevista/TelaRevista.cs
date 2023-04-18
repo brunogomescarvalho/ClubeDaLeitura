@@ -1,8 +1,8 @@
 using System.Collections;
 using ClubeDaLeitura.ConsoleApp.Compartilhado;
-using ClubeDaLeitura.ConsoleApp.Repositorio;
+using ClubeDaLeitura.ConsoleApp.ModuloCaixa;
 
-namespace ClubeDaLeitura.ConsoleApp.Telas
+namespace ClubeDaLeitura.ConsoleApp.ModuloRevista
 {
     public class TelaRevista : Tela
     {
@@ -42,9 +42,9 @@ namespace ClubeDaLeitura.ConsoleApp.Telas
         }
         private void CadastrarRevista()
         {
-            ArrayList revista = ExecutarFormulario();
+            Revista revista = ExecutarFormulario();
 
-            revistaRepositorio.CadastrarRevista(new Revista((string)revista[0]!, (int)revista[1]!, (int)revista[2]!, (Caixa)revista[3]!));
+            revistaRepositorio.Adicionar(revista);
 
             MostrarMensagemStatus(ConsoleColor.Green, "Revista Cadastrada Com Sucesso");
         }
@@ -52,7 +52,7 @@ namespace ClubeDaLeitura.ConsoleApp.Telas
         private void ListarRevistas()
         {
             MostrarTexto(" -- Revistas Cadastradas --\n");
-            var revistas = revistaRepositorio.ListarRevistas();
+            ArrayList revistas = revistaRepositorio.BuscarTodos();
 
             if (!VerificarListaContemItens(revistas, "revistas"))
                 return;
@@ -60,9 +60,9 @@ namespace ClubeDaLeitura.ConsoleApp.Telas
             RenderizarTabelaRevistas(revistas, true);
         }
 
-        public ArrayList ExecutarFormulario()
+        public Revista ExecutarFormulario()
         {
-            ArrayList caixas = caixaRepositorio.ListarCaixas();
+            ArrayList caixas = caixaRepositorio.BuscarTodos();
 
             if (!VerificarListaContemItens(caixas, "caixas"))
                 return null!;
@@ -90,12 +90,12 @@ namespace ClubeDaLeitura.ConsoleApp.Telas
             if (!VerificarItemEncontrado(caixa, $"Caixa nº {nrCaixa} não cadastrada"))
                 return null!;
 
-            return new ArrayList() { colecao, nrEdicao, anoEdicao, caixa };
+            return new Revista(colecao!, nrEdicao, anoEdicao, caixa);
         }
 
         private void EditarRevista()
         {
-            var revistas = revistaRepositorio.ListarRevistas();
+            var revistas = revistaRepositorio.BuscarTodos();
 
             if (!VerificarListaContemItens(revistas, "revistas"))
                 return;
@@ -108,14 +108,14 @@ namespace ClubeDaLeitura.ConsoleApp.Telas
             if (!OpcaoValida(idRevista))
                 return;
 
-            Revista revista = revistaRepositorio.BuscarPorId(int.Parse(idRevista));
+            Revista revista = (Revista)revistaRepositorio.BuscarPorId(int.Parse(idRevista));
 
             if (!VerificarItemEncontrado(revista, $"Revista id {idRevista} não cadastrada."))
                 return;
 
-            ArrayList revistaEditada = ExecutarFormulario();
+            Revista revistaEditada = ExecutarFormulario();
 
-            revistaRepositorio.Editar(revista, revistaEditada);
+            revista.Editar(revistaEditada); 
 
             MostrarMensagemStatus(ConsoleColor.Green, "Revista Editada Com Sucesso");
         }
@@ -123,7 +123,7 @@ namespace ClubeDaLeitura.ConsoleApp.Telas
 
         private void ExcluirRevista()
         {
-            var revistas = revistaRepositorio.ListarRevistas();
+            var revistas = revistaRepositorio.BuscarTodos();
 
             if (!VerificarListaContemItens(revistas, "revistas"))
                 return;
@@ -136,7 +136,7 @@ namespace ClubeDaLeitura.ConsoleApp.Telas
             if (!OpcaoValida(idRevista))
                 return;
 
-            Revista revista = revistaRepositorio.BuscarPorId(int.Parse(idRevista));
+            Revista revista = (Revista)revistaRepositorio.BuscarPorId(int.Parse(idRevista));
 
             if (!VerificarItemEncontrado(revista, $"Revista id {idRevista} não cadastrada."))
                 return;
@@ -147,7 +147,7 @@ namespace ClubeDaLeitura.ConsoleApp.Telas
                 return;
             }
 
-            revistaRepositorio.RemoverRevista(revista);
+            revistaRepositorio.Remover(revista);
             MostrarMensagemStatus(ConsoleColor.Green, "Revista Excluída Com Sucesso");
         }
         private void VisualizarCaixas(ArrayList caixas)
@@ -172,7 +172,7 @@ namespace ClubeDaLeitura.ConsoleApp.Telas
 
         private Caixa BuscarCaixa(int numero)
         {
-            return caixaRepositorio.BuscarPorNumero(numero);
+            return (Caixa)caixaRepositorio.BuscarPorId(numero);
         }
     }
 }

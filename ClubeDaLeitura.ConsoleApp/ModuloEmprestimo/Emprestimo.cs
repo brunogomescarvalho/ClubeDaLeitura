@@ -1,9 +1,9 @@
+using ClubeDaLeitura.ConsoleApp.Compartilhado;
+
 namespace ClubeDaLeitura.ConsoleApp.Domain
 {
-    public class Emprestimo
+    public class Emprestimo : Entidade
     {
-        private static int contador = 1;
-        public int Id { get; private set; }
         public Revista Revista { get; set; }
         public Amigo Amigo { get; set; }
         public DateTime DataEmprestimo { get; set; }
@@ -14,9 +14,11 @@ namespace ClubeDaLeitura.ConsoleApp.Domain
         {
             this.Amigo = amigo;
             this.Revista = revista;
+        }
+        public void Registrar()
+        {
             this.DataEmprestimo = DateTime.Now;
             this.Revista.AlterarStatusRevista();
-            this.Id = contador++;
         }
 
         public void Devolver()
@@ -24,6 +26,15 @@ namespace ClubeDaLeitura.ConsoleApp.Domain
             this.DataDevolucao = DateTime.Now;
             this.Revista.AlterarStatusRevista();
         }
+
+        public override void Editar(Entidade entidade)
+        {
+            Emprestimo emprestimo = (Emprestimo)entidade;
+
+            this.Amigo = emprestimo.Amigo;
+            this.Revista = emprestimo.Revista;
+        }
+
 
         public override string ToString()
         {

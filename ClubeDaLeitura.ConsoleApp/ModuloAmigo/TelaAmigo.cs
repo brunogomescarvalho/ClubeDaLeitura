@@ -1,12 +1,12 @@
 using System.Collections;
 using ClubeDaLeitura.ConsoleApp.Compartilhado;
-using ClubeDaLeitura.ConsoleApp.Repositorio;
 
-namespace ClubeDaLeitura.ConsoleApp.Telas
+namespace ClubeDaLeitura.ConsoleApp.ModuloAmigo
 {
     public class TelaAmigo : Tela
     {
         private readonly AmigoRepositorio amigoRepositorio;
+
         public TelaAmigo(AmigoRepositorio amigoRepositorio)
         {
             this.amigoRepositorio = amigoRepositorio;
@@ -41,18 +41,15 @@ namespace ClubeDaLeitura.ConsoleApp.Telas
 
         private void CadastrarAmigo()
         {
-            ArrayList novoAmigo = ExecutarFormulario();
-
-            Amigo amigo = new Amigo((string)novoAmigo[0]!, (string)novoAmigo[1]!, (string)novoAmigo[2]!, (Endereco)novoAmigo[3]!);
-
-            amigoRepositorio.AdicionarAmigo(amigo);
+            Amigo amigo = ExecutarFormulario();
+            amigoRepositorio.Adicionar(amigo);
         }
 
         private void ListarAmigos()
         {
             MostrarTexto("-- Amigos Cadastrados -- ");
 
-            ArrayList amigos = amigoRepositorio.ListarAmigos();
+            ArrayList amigos = amigoRepositorio.BuscarTodos();
 
             if (!VerificarListaContemItens(amigos, "amigos"))
                 return;
@@ -65,7 +62,7 @@ namespace ClubeDaLeitura.ConsoleApp.Telas
         {
             MostrarTexto("-- Editar Amigo -- ");
 
-            ArrayList amigos = amigoRepositorio.ListarAmigos();
+            ArrayList amigos = amigoRepositorio.BuscarTodos();
 
             if (!VerificarListaContemItens(amigos, "amigos"))
                 return;
@@ -78,17 +75,17 @@ namespace ClubeDaLeitura.ConsoleApp.Telas
             if (!OpcaoValida(id))
                 return;
 
-            Amigo amigoSolicitado = amigoRepositorio.ObterAmigoPorID(int.Parse(id));
+            Amigo amigo = (Amigo)amigoRepositorio.BuscarPorId(int.Parse(id));
 
-            if (!VerificarItemEncontrado(amigoSolicitado, "Amigo não encontrado"))
+            if (!VerificarItemEncontrado(amigo, "Amigo não encontrado"))
             {
                 EditarAmigo();
                 return;
             }
 
-            ArrayList amigoEditado = ExecutarFormulario();
+            Amigo amigoEditado = ExecutarFormulario();
+            amigo.Editar(amigoEditado);
 
-            amigoRepositorio.EditarAmigo(amigoSolicitado.Id, amigoEditado);
 
             MostrarMensagemStatus(ConsoleColor.Green, $"Amigo editado com sucesso");
         }
@@ -97,7 +94,7 @@ namespace ClubeDaLeitura.ConsoleApp.Telas
         {
             MostrarTexto("-- Excluir Amigo -- ");
 
-            ArrayList amigos = amigoRepositorio.ListarAmigos();
+            ArrayList amigos = amigoRepositorio.BuscarTodos();
 
             if (!VerificarListaContemItens(amigos, "amigos"))
                 return;
@@ -110,7 +107,7 @@ namespace ClubeDaLeitura.ConsoleApp.Telas
             if (!OpcaoValida(id))
                 return;
 
-            Amigo amigoEncontrado = amigoRepositorio.ObterAmigoPorID(int.Parse(id));
+            Amigo amigoEncontrado = (Amigo)amigoRepositorio.BuscarPorId(int.Parse(id));
 
             if (!VerificarItemEncontrado(amigoEncontrado, "Amigo não encontrado"))
             {
@@ -118,11 +115,11 @@ namespace ClubeDaLeitura.ConsoleApp.Telas
                 return;
             }
 
-            amigoRepositorio.ExcluirAmigo(amigoEncontrado);
+            amigoRepositorio.Remover(amigoEncontrado);
             MostrarMensagemStatus(ConsoleColor.Green, "Cadastro Excluído com sucesso");
         }
 
-        private ArrayList ExecutarFormulario()
+        private Amigo ExecutarFormulario()
         {
             MostrarTexto("Informe o nome");
             string nome = Console.ReadLine()!;
@@ -150,7 +147,7 @@ namespace ClubeDaLeitura.ConsoleApp.Telas
 
             Endereco endereco = new Endereco(rua, numero, bairro, cep, complemento);
 
-            return new ArrayList() { nome, nomeResponsavel, telefone, endereco };
+            return new Amigo(nome, nomeResponsavel, telefone, endereco);
         }
 
         private void RenderizarTabela(ArrayList amigos, bool esperarTecla)

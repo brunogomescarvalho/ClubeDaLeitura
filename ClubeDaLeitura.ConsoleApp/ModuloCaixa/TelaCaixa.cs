@@ -1,7 +1,7 @@
 using static ClubeDaLeitura.Caixa;
-using ClubeDaLeitura.ConsoleApp.Repositorio;
 using ClubeDaLeitura.ConsoleApp.Compartilhado;
 using System.Collections;
+using ClubeDaLeitura.ConsoleApp.ModuloCaixa;
 
 namespace ClubeDaLeitura
 {
@@ -51,7 +51,7 @@ namespace ClubeDaLeitura
 
             var caixa = new Caixa(cor!, etiqueta!);
 
-            repositorio!.CadastrarCaixa(caixa);
+            repositorio!.Adicionar(caixa);
 
             MostrarMensagemStatus(ConsoleColor.Green, "Caixa cadatrada com sucesso");
         }
@@ -60,7 +60,7 @@ namespace ClubeDaLeitura
         {
             MostrarTexto("-- Caixas Cadastradas --\n");
 
-            var caixas = repositorio.ListarCaixas();
+            var caixas = repositorio.BuscarTodos();
 
             if (!VerificarListaContemItens(caixas, "caixa"))
                 return;
@@ -72,7 +72,7 @@ namespace ClubeDaLeitura
         {
             MostrarTexto("--- Editar Caixa ---\n");
 
-            var caixas = repositorio.ListarCaixas();
+            var caixas = repositorio.BuscarTodos();
 
             if (!VerificarListaContemItens(caixas, "caixas"))
                 return;
@@ -85,7 +85,7 @@ namespace ClubeDaLeitura
             if (!OpcaoValida(id))
                 return;
 
-            Caixa caixa = repositorio.BuscarPorNumero(int.Parse(id));
+            Caixa caixa = (Caixa)repositorio.BuscarPorId(int.Parse(id));
 
             if (!VerificarItemEncontrado(caixa, "Caixa  não cadatrada"))
                 return;
@@ -109,7 +109,7 @@ namespace ClubeDaLeitura
         {
             MostrarTexto("--- Excluir Caixa ---\n");
 
-            ArrayList caixas = repositorio.ListarCaixas();
+            ArrayList caixas = repositorio.BuscarTodos();
 
             if (!VerificarListaContemItens(caixas, "caixas"))
                 return;
@@ -122,12 +122,12 @@ namespace ClubeDaLeitura
             if (!OpcaoValida(id))
                 return;
 
-            Caixa caixa = repositorio.BuscarPorNumero(int.Parse(id));
+            Caixa caixa = (Caixa)repositorio.BuscarPorId(int.Parse(id));
 
             if (!VerificarItemEncontrado(caixa, "Caixa  não cadatrada"))
                 return;
 
-            repositorio.ExcluirCaixa(caixa);
+            repositorio.Remover(caixa);
             MostrarMensagemStatus(ConsoleColor.Green, "Caixa excluída com sucesso");
         }
 
@@ -142,10 +142,10 @@ namespace ClubeDaLeitura
             Console.WriteLine("5 - Ambar");
             Console.WriteLine("6 - Violeta");
             Console.WriteLine("7 - Branca");  
-            Console.Write("8 - Cinza\n=> "); 
+            Console.Write("8 - Cinza\n=> ");
             
 
-            return (Cores)int.Parse(Console.ReadLine()!);
+           return (Cores)int.Parse(Console.ReadLine()!);
         }
 
         private bool ValidarCorCaixa(Cores cor)
